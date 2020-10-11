@@ -70,6 +70,7 @@ class YouTubePlayer extends EventEmitter {
     }, opts)
 
     this.videoId = null
+    this.listId = null
     this.destroyed = false
 
     this._api = null
@@ -127,6 +128,35 @@ class YouTubePlayer extends EventEmitter {
       this._player.loadVideoById(videoId)
     } else {
       this._player.cueVideoById(videoId)
+    }
+  }
+
+  loadList (listObj, autoplay = false) {
+    if (this.destroyed) return
+
+    this.videoId = null
+    this._autoplay = autoplay
+
+    // If the Iframe API is not ready yet, do nothing. Once the Iframe API is
+    // ready, `load(this.videoId)` will be called.
+    if (!this._api) return
+
+    // If there is no player instance, create one.
+    if (!this._player) {
+      this._createPlayer(videoId)
+      return
+    }
+
+    // If the player instance is not ready yet, do nothing. Once the player
+    // instance is ready, `load(this.videoId)` will be called. This ensures that
+    // the last call to `load()` is the one that takes effect.
+    if (!this._ready) return
+
+    // If the player instance is ready, load the given `videoId`.
+    if (autoplay) {
+      this._player.loadPlaylist(listObj)
+    } else {
+      this._player.cuePlaylist(listObj)
     }
   }
 
