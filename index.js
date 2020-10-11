@@ -98,7 +98,7 @@ class YouTubePlayer extends EventEmitter {
 
       // If load(videoId, [autoplay]) was called before Iframe API loaded, ensure it gets
       // called again now
-      if (this.videoId) this.load(this.videoId, this._autoplay)
+      this.load(this.videoId, this._autoplay)
     })
   }
 
@@ -114,9 +114,11 @@ class YouTubePlayer extends EventEmitter {
 
     // If there is no player instance, create one.
     if (!this._player) {
+      //  console.log(`YT load createPlayer`)
       this._createPlayer(videoId)
       return
     }
+    //  console.log(`YT load ready = ${this._ready}`)
 
     // If the player instance is not ready yet, do nothing. Once the player
     // instance is ready, `load(this.videoId)` will be called. This ensures that
@@ -124,39 +126,28 @@ class YouTubePlayer extends EventEmitter {
     if (!this._ready) return
 
     // If the player instance is ready, load the given `videoId`.
-    if (autoplay) {
-      this._player.loadVideoById(videoId)
-    } else {
-      this._player.cueVideoById(videoId)
+    //  console.log(`YT load id=${videoId}`)
+    if (videoId){
+      if (autoplay) {
+        this._player.loadVideoById(videoId)
+      } else {
+        this._player.cueVideoById(videoId)
+      }
     }
   }
 
   loadList (listObj, autoplay = false) {
-    if (this.destroyed) return
-
-    this.videoId = null
-    this._autoplay = autoplay
-
-    // If the Iframe API is not ready yet, do nothing. Once the Iframe API is
-    // ready, `load(this.videoId)` will be called.
-    if (!this._api) return
-
-    // If there is no player instance, create one.
-    if (!this._player) {
-      this._createPlayer(videoId)
-      return
+    if (this._ready){
+      if (autoplay) {
+        console.log('loadPlaylist', listObj)
+        this._player.loadPlaylist(listObj)
+      } else {
+        console.log('cuePlaylist', listObj)
+        this._player.cuePlaylist(listObj)
+      }
     }
-
-    // If the player instance is not ready yet, do nothing. Once the player
-    // instance is ready, `load(this.videoId)` will be called. This ensures that
-    // the last call to `load()` is the one that takes effect.
-    if (!this._ready) return
-
-    // If the player instance is ready, load the given `videoId`.
-    if (autoplay) {
-      this._player.loadPlaylist(listObj)
-    } else {
-      this._player.cuePlaylist(listObj)
+    else{
+      this._queueCommand('loadList', listObj, autoplay)
     }
   }
 

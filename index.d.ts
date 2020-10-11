@@ -66,11 +66,11 @@ interface YouTubePlayerOptions {
 }
 
 interface YouTubePlayerListInfo {
-    listType:string
+    listType?:string
     list:string
-    index:number
-    startSeconds:number
-    suggestedQuality:string    
+    index?:number
+    startSeconds?:number
+    suggestedQuality?:string    
 }
 
 type YouTubePlayerState = "unstarted" | "ended" | "playing" | "paused" | "buffering" | "cued";
