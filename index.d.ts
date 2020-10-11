@@ -65,6 +65,14 @@ interface YouTubePlayerOptions {
     playsInline?: boolean;
 }
 
+interface YouTubePlayerListInfo {
+    listType:string
+    list:string
+    index:number
+    startSeconds:number
+    suggestedQuality:string    
+}
+
 type YouTubePlayerState = "unstarted" | "ended" | "playing" | "paused" | "buffering" | "cued";
 
 type YouTubePlayerQuality = "small" | "medium" | "large" | "hd720" | "hd1080" | "highres" | "default";
@@ -100,6 +108,9 @@ declare class YouTubePlayer extends EventEmitter {
      * This should be the first function called on a new Player instance.
      */
     load(videoId: string, autoplay?: boolean): void;
+
+    loadList (listObj: YouTubePlayerListInfo, autoplay?:boolean): void
+
     /** Plays the currently loaded video. */
     play(): void;
     /** Pauses the currently loaded video. */
