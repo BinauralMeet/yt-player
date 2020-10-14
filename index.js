@@ -151,6 +151,15 @@ class YouTubePlayer extends EventEmitter {
     }
   }
 
+  playVideoAt (index) {
+    if (this._ready){
+      this._player.playVideoAt(index)
+    }
+    else{
+      this._queueCommand('playVideoAt', index)
+    }
+  }
+ 
   play () {
     if (this._ready) this._player.playVideo()
     else this._queueCommand('play')
@@ -231,6 +240,14 @@ class YouTubePlayer extends EventEmitter {
 
   getCurrentTime () {
     return (this._ready && this._player.getCurrentTime()) || 0
+  }
+
+  getPlaylist () {
+    return (this._ready && this._player.getPlaylist()) || []
+  }
+
+  getPlaylistIndex () {
+    return (this._ready && this._player.getPlaylistIndex()) || -1
   }
 
   destroy () {

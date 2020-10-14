@@ -70,7 +70,7 @@ interface YouTubePlayerListInfo {
     list:string
     index?:number
     startSeconds?:number
-    suggestedQuality?:string    
+    suggestedQuality?:string
 }
 
 type YouTubePlayerState = "unstarted" | "ended" | "playing" | "paused" | "buffering" | "cued";
@@ -113,6 +113,8 @@ declare class YouTubePlayer extends EventEmitter {
 
     /** Plays the currently loaded video. */
     play(): void;
+    /** Plays the video in the playlist. */
+    playVideoAt(index: number): void;
     /** Pauses the currently loaded video. */
     pause(): void;
     /**
@@ -204,6 +206,11 @@ declare class YouTubePlayer extends EventEmitter {
     getState(): YouTubePlayerState;
     /** Returns the elapsed time in seconds since the video started playing. */
     getCurrentTime(): number;
+    /** Returns playlist. */
+    getPlaylist(): string[];
+    /** Returns current index in the playlist. */
+    getPlaylistIndex(): Number
+
     /**
      * Removes the <iframe> containing the player and cleans up all resources.
      */
