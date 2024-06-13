@@ -3,7 +3,7 @@
 // Definitions by: Thomas Röggla <https://github.com/troeggla>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-import { EventEmitter } from "events";
+import { EventEmitter } from "eventemitter3";
 
 interface YouTubePlayerOptions {
     /**  This parameter indicates the width of the player. */
